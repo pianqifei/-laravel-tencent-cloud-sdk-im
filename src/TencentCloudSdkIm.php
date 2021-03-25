@@ -11,7 +11,7 @@ class TencentCloudSdkIm extends LaravelFacade
     {
         return new Tim(config('tencentsdkim'));
     }
-    
+
     /**
      * 帐号
      * @return \QcloudIM\Api\Account
@@ -20,7 +20,7 @@ class TencentCloudSdkIm extends LaravelFacade
     {
         return self::getFacadeRoot()->Account();
     }
-    
+
     /**
      *资料管理
      * @return \QcloudIM\Api\Profile
@@ -29,7 +29,7 @@ class TencentCloudSdkIm extends LaravelFacade
     {
         return self::getFacadeRoot()->Profile();
     }
-    
+
     /**
      * 朋友
      * @return \QcloudIM\Api\Friend
@@ -38,7 +38,7 @@ class TencentCloudSdkIm extends LaravelFacade
     {
         return self::getFacadeRoot()->Friend();
     }
-    
+
     /**
      * 关系链管理(好友黑名单)
      * @return \QcloudIM\Api\FriendBlacklist
@@ -47,7 +47,7 @@ class TencentCloudSdkIm extends LaravelFacade
     {
         return self::getFacadeRoot()->FriendBlacklist();
     }
-    
+
     /**
      * 群组管理
      * @return \QcloudIM\Api\Group
@@ -56,7 +56,7 @@ class TencentCloudSdkIm extends LaravelFacade
     {
         return self::getFacadeRoot()->Group();
     }
-    
+
     /**
      * 群组管理(消息)
      * @return \QcloudIM\Api\GroupMessage
@@ -65,7 +65,7 @@ class TencentCloudSdkIm extends LaravelFacade
     {
         return self::getFacadeRoot()->GroupMessage();
     }
-    
+
     /**
      * 单聊管理
      * @return \QcloudIM\Api\ChatMessage
@@ -74,7 +74,7 @@ class TencentCloudSdkIm extends LaravelFacade
     {
         return self::getFacadeRoot()->ChatMessage();
     }
-    
+
     /**
      * 群组管理(导入相关)
      * @return \QcloudIM\Api\ImportGroup
@@ -83,7 +83,7 @@ class TencentCloudSdkIm extends LaravelFacade
     {
         return self::getFacadeRoot()->ImportGroup();
     }
-    
+
     /**
      * 全局管理
      * @return \QcloudIM\Api\GlobalConfig
@@ -92,17 +92,18 @@ class TencentCloudSdkIm extends LaravelFacade
     {
         return self::getFacadeRoot()->GlobalConfig();
     }
-    
+
     /**
      * 获取 user sig
      * @param int $user_id 用户id
+     * @param int $expire 有效时间(s)
      * @return string
      */
-    public static function GenUserSig($user_id)
+    public static function GenUserSig($user_id,$expire=24*60*60)
     {
         $config = config('tencentsdkim');
         $m = new TLSSigAPIv2($config['sdkappid'], $config['secret']);
         // 有效期一天
-        return $m->genSig($user_id, 86400);
+        return $m->genSig($user_id, $expire);
     }
 }
